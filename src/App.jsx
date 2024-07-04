@@ -2,10 +2,24 @@ import { CORE_CONCEPTS } from "./data.js";
 import Header from "./components/Header/Header.jsx";
 import CoreConcept from "./components/CoreConcept.jsx";
 import TabButton from "./components/TabButton.jsx";
+import { useState } from "react";
+import { EXAMPLES } from "./data.js";
 function App() {
+  const [handleButton, setHandleButton] = useState();
+  let tabContent = <p>Please select the button</p>;
+  if (handleButton){
+    tabContent = (
+      <div id="tab-content">
+          <h3>{EXAMPLES[handleButton].title}</h3>
+          <p>{EXAMPLES[handleButton].description}</p>
+          <pre>
+            <code>{EXAMPLES[handleButton].code}</code>
+          </pre>
+        </div>
+    );
+  }
   function handleSelect(selectedButton){
-    //selectedButton => "component", "jsx", "props", "state"
-    console.log(selectedButton);
+    setHandleButton(selectedButton)
   }
   return (
     <div>
@@ -33,9 +47,11 @@ function App() {
             <TabButton onSelect={() => handleSelect("props")}>Props</TabButton>
             <TabButton onSelect={() => handleSelect("state")}>State</TabButton>
           </menu>
+          {tabContent}
         </section>
-        <h2>Time to get started!</h2>
+        
       </main>
+      
     </div>
   );
 }
